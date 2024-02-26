@@ -5,4 +5,4 @@ LorcanAI is a work-in-progress, and I just started my development of it. My plan
 ## Installation
 Currently, the LorcanAI project is not in a state where a user can install and use it. This section will be updated when that point has been reached.
 ## Attributions
-This section will contain necessary attributions for 3rd party software & libraries used in the creation of this project. Currently, the project makes use of Beautiful Soup, Selenium, & LXML.
+This section will contain necessary attributions for 3rd party software & libraries used in the creation of this project. Currently, the project makes use of Beautiful Soup, Selenium, & LXML. In the creation of this project, I have made use of AI tools such as Github Copilot. Since these tools contain training data scraped from open source repositories, it is highly likely that snippets of open source code may be included without proper attribution. For that, I apoligize.
