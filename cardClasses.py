@@ -73,10 +73,52 @@ class CardKeyword:
         self.name = name
         self.description = description
 
+class CardExpansion(Enum):
+    """ Represents the different expansions that a card can be from """
+    The_First_Chapter = 1
+    Rise_of_the_Floodborn = 2
+    Into_the_Inklands = 3
+
 class CardClassification(Enum):
     """ Represents the different classifications that a card can have """
-    # ... (omitted for brevity)
+    Action = 1
+    Alien = 2
+    Ally = 3
+    Broom = 4
+    Captian = 5
+    Deity = 6
+    Detective = 7
+    Dragon = 8
+    Dreamborn = 9
+    Fairy = 10
+    Floodborn = 11
+    Hero = 12
+    Hyena = 13
+    Inventor = 14
+    Item = 15
+    King = 16
+    Knight = 17
+    Location = 18
+    Mentor = 19
+    Musketeer = 20
+    Pirate = 21
+    Prince = 22
+    Princess = 23
+    Puppy = 24
+    Queen = 25
+    Seven_Dwarves = 26
+    Song = 27
+    Sorcerer = 28
+    Storyborn = 29
+    Tigger = 30
+    Titan = 31
+    Villain = 32
 
 class InkColor(Enum):
     """ Represents the different ink colors that a card can have """
-    # ... (omitted for brevity)
+    Amber = 1
+    Amethyst = 2
+    Emerald = 3
+    Ruby = 4
+    Sapphire = 5
+    Steel = 6

@@ -5,8 +5,10 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from lxml import etree
-import time
 import cardClasses
+
+# Note: All card data will be scraped from https://lorcanaplayer.com/lorcana-card-list/#main-sets
+# Make sure to exclude all cards with enchanted or promo rarity for final pass
 
 options = Options()
 #options.add_argument('--headless')
@@ -23,10 +25,30 @@ itemCards = []
 
 cardLinkTDs = driver.find_elements(By.CSS_SELECTOR, 'td.card-name')
 
+def extractLinkText(soup, targetClass, subClass):
+    subSoup = soup.find('div', class_=targetClass)
+    all_links = subSoup.find('p', class_=subClass).find('a')
+    strings = [link.text.strip() for link in all_links]
+    return strings
+
 def getCardInfo():
     name = soup.find("p", class_="gb-headline gb-headline-61acf78d gb-headline-text").text
-    
-    print(name)
+    imageURL = soup.find("img", class_="gb-image-b699f858 skip-lazy card")['src']
+    inkableText = extractLinkText(soup, 'gb-container gb-container-660cda70', 'has-text-align-center')
+    expansionText = extractLinkText(soup, 'gb-container gb-container-7423ff29', 'has-text-align-center')
+    inkColorText = extractLinkText(soup, 'gb-container gb-container-6c8450e1', 'has-text-align-center')
+    cardTypeText = extractLinkText(soup, 'gb-container gb-container-686ee32f', 'has-text-align-center')
+    rarityText = extractLinkText(soup, 'gb-container gb-container-27860a78', 'has-text-align-center')
+    classificationsText = extractLinkText(soup, 'gb-container gb-container-0b93f10d', 'gb-headline gb-headline-fea62c4a gb-headline-text')
+    inkCost = soup.find('p', class_="gb-headline gb-headline-55c56612 gb-headline-text").text
+    print("Card Name: " + name)
+    print("Image URL: " + imageURL)
+    print("Inkable: " + inkableText)
+    print("Expansion: " + expansionText)
+    print("Ink Color: " + inkColorText)
+    print("Card Type: " + cardTypeText)
+    print("Rarity: " + rarityText)
+    print("Ink Cost: " + inkCost)
 
 for td in cardLinkTDs:
     link = td.find_element(By.TAG_NAME, 'a')
@@ -44,4 +66,3 @@ for td in cardLinkTDs:
 
     driver.close()
     driver.switch_to.window(driver.window_handles[0])
-
