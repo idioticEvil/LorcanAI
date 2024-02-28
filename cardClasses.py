@@ -75,50 +75,68 @@ class CardKeyword:
 
 class CardExpansion(Enum):
     """ Represents the different expansions that a card can be from """
-    The_First_Chapter = 1
-    Rise_of_the_Floodborn = 2
-    Into_the_Inklands = 3
+    The_First_Chapter = "The First Chapter"
+    Rise_of_the_Floodborn = "Rise of the Floodborn"
+    Into_the_Inklands = "Into the Inklands"
 
 class CardClassification(Enum):
     """ Represents the different classifications that a card can have """
-    Action = 1
-    Alien = 2
-    Ally = 3
-    Broom = 4
-    Captian = 5
-    Deity = 6
-    Detective = 7
-    Dragon = 8
-    Dreamborn = 9
-    Fairy = 10
-    Floodborn = 11
-    Hero = 12
-    Hyena = 13
-    Inventor = 14
-    Item = 15
-    King = 16
-    Knight = 17
-    Location = 18
-    Mentor = 19
-    Musketeer = 20
-    Pirate = 21
-    Prince = 22
-    Princess = 23
-    Puppy = 24
-    Queen = 25
-    Seven_Dwarves = 26
-    Song = 27
-    Sorcerer = 28
-    Storyborn = 29
-    Tigger = 30
-    Titan = 31
-    Villain = 32
+    Action = "Action"
+    Alien = "Alien"
+    Ally = "Ally"
+    Broom = "Broom"
+    Captian = "Captain"
+    Deity = "Deity"
+    Detective = "Detective"
+    Dragon = "Dragon"
+    Dreamborn = "Dreamborn"
+    Fairy = "Fairy"
+    Floodborn = "Floodborn"
+    Hero = "Hero"
+    Hyena = "Hyena"
+    Inventor = "Inventor"
+    Item = "Item"
+    King = "King"
+    Knight = "Knight"
+    Location = "Location"
+    Mentor = "Mentor"
+    Musketeer = "Musketeer"
+    Pirate = "Pirate"
+    Prince = "Prince"
+    Princess = "Princess"
+    Puppy = "Puppy"
+    Queen = "Queen"
+    Seven_Dwarves = "Seven Dwarves"
+    Song = "Song"
+    Sorcerer = "Sorcerer"
+    Storyborn = "Storyborn"
+    Tigger = "Tigger"
+    Titan = "Titan"
+    Villain = "Villain"
 
 class InkColor(Enum):
     """ Represents the different ink colors that a card can have """
-    Amber = 1
-    Amethyst = 2
-    Emerald = 3
-    Ruby = 4
-    Sapphire = 5
-    Steel = 6
+    Amber = "Amber"
+    Amethyst = "Amethyst"
+    Emerald = "Emerald"
+    Ruby = "Ruby"
+    Sapphire = "Sapphire"
+    Steel = "Steel"
+
+class Rarity(Enum):
+    """ Represents the different rarities that a card can have """
+    Common = "Common"
+    Uncommon = "Uncommon"
+    Rare = "Rare"
+    Super_Rare = "Super Rare"
+    Enchanted = "Enchanted"
+    Legendary = "Legendary"
+    Promo = "Promo"
+
+class CardType(Enum):
+    """ Represents the different types that a card can have """
+    Character = "Character"
+    Location = "Location"
+    Action = "Action"
+    Song = "Action • Song"
+    Item = "Item"

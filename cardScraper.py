@@ -27,9 +27,9 @@ cardLinkTDs = driver.find_elements(By.CSS_SELECTOR, 'td.card-name')
 
 def extractLinkText(soup, targetClass, subClass):
     subSoup = soup.find('div', class_=targetClass)
-    all_links = subSoup.find('p', class_=subClass).find('a')
+    all_links = subSoup.find('p', class_=subClass).find_all('a')
     strings = [link.text.strip() for link in all_links]
-    return strings
+    return strings[0] if len(strings) == 1 else strings
 
 def getCardInfo():
     name = soup.find("p", class_="gb-headline gb-headline-61acf78d gb-headline-text").text
@@ -40,7 +40,7 @@ def getCardInfo():
     cardTypeText = extractLinkText(soup, 'gb-container gb-container-686ee32f', 'has-text-align-center')
     rarityText = extractLinkText(soup, 'gb-container gb-container-27860a78', 'has-text-align-center')
     classificationsText = extractLinkText(soup, 'gb-container gb-container-0b93f10d', 'gb-headline gb-headline-fea62c4a gb-headline-text')
-    inkCost = soup.find('p', class_="gb-headline gb-headline-55c56612 gb-headline-text").text
+    inkCostText = soup.find('p', class_="gb-headline gb-headline-55c56612 gb-headline-text").text
     print("Card Name: " + name)
     print("Image URL: " + imageURL)
     print("Inkable: " + inkableText)
@@ -48,7 +48,22 @@ def getCardInfo():
     print("Ink Color: " + inkColorText)
     print("Card Type: " + cardTypeText)
     print("Rarity: " + rarityText)
-    print("Ink Cost: " + inkCost)
+    print("Ink Cost: " + inkCostText)
+    
+    if isinstance(classificationsText, list):
+        for classification in classificationsText:
+            print("Classification: " + classification)
+    else:
+        print("Classification: " + classificationsText)
+
+    inkable = inkableText == "Yes"
+    expansion = cardClasses.Expansion[expansionText]
+    inkColor = cardClasses.CardInkColor[inkColorText]
+    cardType = cardClasses.CardType[cardTypeText]
+    rarity = cardClasses.CardRarity[rarityText]
+    classifications = [cardClasses.CardClassification[classification] for classification in classificationsText]
+    inkCost = int(inkCostText)
+
 
 for td in cardLinkTDs:
     link = td.find_element(By.TAG_NAME, 'a')
