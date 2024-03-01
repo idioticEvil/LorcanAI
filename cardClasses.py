@@ -1,9 +1,37 @@
-from enum import Enum
 from abc import ABC, abstractmethod
+from typing import List
+import cardEnums
+
+""" 
+TODO:
+- Action & Song Cards implement abilities differently than Character & Location Cards, and have no name,
+so implement a way to handle that
+- Implement the print_info() method for all card types
+- Implement a basic print_info method for the LorcanaCard class for common information, 
+and use something like a tuple list to control print order
+- Implement the abilities and keywords for all card types
+- Implement print functions for abilities and keywords that card print_info() can call
+"""
+
+class CardAbility:
+    """ Represents an ability that a card can have """
+    def __init__(self, name: str, description: str, exertion: bool):
+        self.name = name
+        self.description = description
+        self.exertion = exertion
+
+class CardKeyword:
+    """ Represents a keyword that a card can have """
+    def __init__(self, name: str, description: str):
+        self.name = name
+        self.description = description
 
 class LorcanaCard(ABC):
     """ Represents a basic card in the game that all cards will inherit from """
-    def __init__(self, card_id, name, ink_color, cost, classifications, image_url, inkable, expansion, rarity):
+    def __init__(self, card_id: int, name: str, ink_color: cardEnums.InkColor, 
+                 cost: int, classifications: List[cardEnums.CardClassification], 
+                 image_url: str, inkable: bool, expansion: cardEnums.CardExpansion, 
+                 rarity: cardEnums.CardRarity):
         self.card_id = card_id
         self.name = name
         self.ink_color = ink_color
@@ -15,13 +43,13 @@ class LorcanaCard(ABC):
         self.rarity = rarity
 
     @abstractmethod
-    def some_method(self):
+    def print_info(self):
         pass
 
 class AttributedCard(LorcanaCard, ABC):
     """ Subclass to represent cards with attributes """
     @abstractmethod
-    def __init__(self, strength, willpower, loreVal, **kwargs):  
+    def __init__(self, strength: int, willpower: int, loreVal: int, **kwargs):  
         super().__init__(**kwargs)
         self.strength = strength
         self.willpower = willpower
@@ -29,114 +57,117 @@ class AttributedCard(LorcanaCard, ABC):
 
 class CharacterCard(AttributedCard):
     """ Subclass to represent character cards """
-    def __init__(self, card_id, name, version, ink_color, cost, classifications, image_url, inkable, expansion, rarity, strength, willpower, loreVal, abilities, keywords):
-        super().__init__(card_id=card_id, name=name, ink_color=ink_color, cost=cost, classifications=classifications, image_url=image_url, inkable=inkable, expansion=expansion, rarity=rarity, strength=strength, willpower=willpower, loreVal=loreVal)
+    def __init__(self, card_id: int, name: str, version: str, ink_color: cardEnums.InkColor, 
+                 cost: int, classifications: List[cardEnums.CardClassification], 
+                 image_url: str, inkable: bool, expansion: cardEnums.CardExpansion, 
+                 rarity: cardEnums.CardRarity, strength: int, willpower: int, loreVal: int, 
+                 abilities, keywords):
+        super().__init__(card_id=card_id, name=name, ink_color=ink_color, cost=cost, 
+                         classifications=classifications, image_url=image_url, inkable=inkable, 
+                         expansion=expansion, rarity=rarity, strength=strength, willpower=willpower, 
+                         loreVal=loreVal)
         self.version = version
         self.abilities = abilities
         self.keywords = keywords
 
+        def print_info(self):
+            print("Card Name: " + self.name)
+            print("Card Version: " + self.version)
+            print("Ink Color: " + self.ink_color.value)
+            print("Inkwell: " + str(self.inkable))
+            print("Cost: " + str(self.cost))
+            print("Strength: " + str(self.strength))
+            print("Willpower: " + str(self.willpower))
+            print("Lore Value: " + str(self.loreVal))
+            print("Classifications: " + ', '.join([classification.value for classification in self.classifications]))
+            print("Expansion: " + self.expansion.value)
+            print("Rarity: " + self.rarity.value)
+            # TODO: Implement abilities and keywords
+
 class LocationCard(AttributedCard):
     """ Subclass to represent location cards """
-    def __init__(self, card_id, name, version, ink_color, cost, classifications, image_url, inkable, expansion, rarity, strength, willpower, loreVal, abilities):
-        super().__init__(card_id=card_id, name=name, ink_color=ink_color, cost=cost, classifications=classifications, image_url=image_url, inkable=inkable, expansion=expansion, rarity=rarity, strength=strength, willpower=willpower, loreVal=loreVal)
+    def __init__(self, card_id: int, name: str, version: str, ink_color: cardEnums.InkColor, 
+                 cost: int, classifications: List[cardEnums.CardClassification], 
+                 image_url: str, inkable: bool, expansion: cardEnums.CardExpansion, 
+                 rarity: cardEnums.CardRarity, strength: int, willpower: int, loreVal: int, 
+                 abilities):
+        super().__init__(card_id=card_id, name=name, ink_color=ink_color, cost=cost, 
+                         classifications=classifications, image_url=image_url, inkable=inkable, 
+                         expansion=expansion, rarity=rarity, strength=strength, willpower=willpower, 
+                         loreVal=loreVal)
         self.version = version
         self.abilities = abilities
 
+        def print_info(self):
+            print("Card Name: " + self.name)
+            print("Card Version: " + self.version)
+            print("Ink Color: " + self.ink_color.value)
+            print("Inkwell: " + str(self.inkable))
+            print("Cost: " + str(self.cost))
+            print("Strength: " + str(self.strength))
+            print("Willpower: " + str(self.willpower))
+            print("Lore Value: " + str(self.loreVal))
+            print("Classifications: " + ', '.join([classification.value for classification in self.classifications]))
+            print("Expansion: " + self.expansion.value)
+            print("Rarity: " + self.rarity.value)
+            # TODO: Implement abilities
+
 class ActionCard(LorcanaCard):
     """ Subclass to represent action cards """
-    def __init__(self, card_id, name, ink_color, cost, classifications, image_url, inkable, expansion, rarity, abilities):
-        super().__init__(card_id, name, ink_color, cost, classifications, image_url, inkable, expansion, rarity)
+    def __init__(self, card_id: int, name: str, ink_color: cardEnums.InkColor, cost: int, 
+                 classifications: List[cardEnums.CardClassification], image_url: str, 
+                 inkable: bool, expansion: cardEnums.CardExpansion, 
+                 rarity: cardEnums.CardRarity, abilities):
+        super().__init__(card_id, name, ink_color, cost, classifications, image_url, 
+                         inkable, expansion, rarity)
         self.abilities = abilities
+
+        def print_info(self):
+            print("Card Name: " + self.name)
+            print("Ink Color: " + self.ink_color.value)
+            print("Inkwell: " + str(self.inkable))
+            print("Cost: " + str(self.cost))
+            print("Classifications: " + ', '.join([classification.value for classification in self.classifications]))
+            print("Expansion: " + self.expansion.value)
+            print("Rarity: " + self.rarity.value)
+            # TODO: Implement abilities
 
 class SongCard(LorcanaCard):
     """ Subclass to represent song cards """
-    def __init__(self, card_id, name, ink_color, cost, classifications, image_url, inkable, expansion, rarity, abilities):
-        super().__init__(card_id, name, ink_color, cost, classifications, image_url, inkable, expansion, rarity)
+    def __init__(self, card_id: int, name: str, ink_color: cardEnums.InkColor, cost: int, 
+                 classifications: List[cardEnums.CardClassification], image_url: str, 
+                 inkable: bool, expansion: cardEnums.CardExpansion, 
+                 rarity: cardEnums.CardRarity, abilities):
+        super().__init__(card_id, name, ink_color, cost, classifications, image_url, 
+                         inkable, expansion, rarity)
         self.abilities = abilities
+
+        def print_info(self):
+            print("Card Name: " + self.name)
+            print("Ink Color: " + self.ink_color.value)
+            print("Inkwell: " + str(self.inkable))
+            print("Cost: " + str(self.cost))
+            print("Classifications: " + ', '.join([classification.value for classification in self.classifications]))
+            print("Expansion: " + self.expansion.value)
+            print("Rarity: " + self.rarity.value)
+            # TODO: Implement abilities
 
 class ItemCard(LorcanaCard):
     """ Subclass to represent item cards """
-    def __init__(self, card_id, name, ink_color, cost, classifications, image_url, inkable, expansion, rarity, abilities):
-        super().__init__(card_id, name, ink_color, cost, classifications, image_url, inkable, expansion, rarity)
+    def __init__(self, card_id: int, name: str, ink_color: cardEnums.InkColor, 
+                 cost: int, classifications: List[cardEnums.CardClassification], 
+                 image_url: str, inkable: bool, expansion: cardEnums.CardRarity, 
+                 rarity: cardEnums.CardRarity, abilities):
+        super().__init__(card_id, name, ink_color, cost, classifications, image_url, 
+                         inkable, expansion, rarity)
         self.abilities = abilities
 
-class CardAbility:
-    """ Represents an ability that a card can have """
-    def __init__(self, name, description, exertion):
-        self.name = name
-        self.description = description
-        self.exertion = exertion
-
-class CardKeyword:
-    """ Represents a keyword that a card can have """
-    def __init__(self, name, description):
-        self.name = name
-        self.description = description
-
-class CardExpansion(Enum):
-    """ Represents the different expansions that a card can be from """
-    The_First_Chapter = "The First Chapter"
-    Rise_of_the_Floodborn = "Rise of the Floodborn"
-    Into_the_Inklands = "Into the Inklands"
-
-class CardClassification(Enum):
-    """ Represents the different classifications that a card can have """
-    Action = "Action"
-    Alien = "Alien"
-    Ally = "Ally"
-    Broom = "Broom"
-    Captian = "Captain"
-    Deity = "Deity"
-    Detective = "Detective"
-    Dragon = "Dragon"
-    Dreamborn = "Dreamborn"
-    Fairy = "Fairy"
-    Floodborn = "Floodborn"
-    Hero = "Hero"
-    Hyena = "Hyena"
-    Inventor = "Inventor"
-    Item = "Item"
-    King = "King"
-    Knight = "Knight"
-    Location = "Location"
-    Mentor = "Mentor"
-    Musketeer = "Musketeer"
-    Pirate = "Pirate"
-    Prince = "Prince"
-    Princess = "Princess"
-    Puppy = "Puppy"
-    Queen = "Queen"
-    Seven_Dwarves = "Seven Dwarves"
-    Song = "Song"
-    Sorcerer = "Sorcerer"
-    Storyborn = "Storyborn"
-    Tigger = "Tigger"
-    Titan = "Titan"
-    Villain = "Villain"
-
-class InkColor(Enum):
-    """ Represents the different ink colors that a card can have """
-    Amber = "Amber"
-    Amethyst = "Amethyst"
-    Emerald = "Emerald"
-    Ruby = "Ruby"
-    Sapphire = "Sapphire"
-    Steel = "Steel"
-
-class Rarity(Enum):
-    """ Represents the different rarities that a card can have """
-    Common = "Common"
-    Uncommon = "Uncommon"
-    Rare = "Rare"
-    Super_Rare = "Super Rare"
-    Enchanted = "Enchanted"
-    Legendary = "Legendary"
-    Promo = "Promo"
-
-class CardType(Enum):
-    """ Represents the different types that a card can have """
-    Character = "Character"
-    Location = "Location"
-    Action = "Action"
-    Song = "Action • Song"
-    Item = "Item"
+        def print_info(self):
+            print("Card Name: " + self.name)
+            print("Ink Color: " + self.ink_color.value)
+            print("Inkwell: " + str(self.inkable))
+            print("Cost: " + str(self.cost))
+            print("Classifications: " + ', '.join([classification.value for classification in self.classifications]))
+            print("Expansion: " + self.expansion.value)
+            print("Rarity: " + self.rarity.value)
+            # TODO: Implement abilities

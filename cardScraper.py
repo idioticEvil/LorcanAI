@@ -6,12 +6,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from lxml import etree
 import cardClasses
+import cardEnums
 
 # Note: All card data will be scraped from https://lorcanaplayer.com/lorcana-card-list/#main-sets
 # Make sure to exclude all cards with enchanted or promo rarity for final pass
 
 options = Options()
-#options.add_argument('--headless')
 options.page_load_strategy = 'eager'
 driver = webdriver.Firefox(options=options)
 driver.get('https://lorcanaplayer.com/lorcana-card-list/#main-sets')
@@ -57,13 +57,18 @@ def getCardInfo():
         print("Classification: " + classificationsText)
 
     inkable = inkableText == "Yes"
-    expansion = cardClasses.Expansion[expansionText]
-    inkColor = cardClasses.CardInkColor[inkColorText]
-    cardType = cardClasses.CardType[cardTypeText]
-    rarity = cardClasses.CardRarity[rarityText]
-    classifications = [cardClasses.CardClassification[classification] for classification in classificationsText]
-    inkCost = int(inkCostText)
+    expansion_lookup = {e.value: e for e in cardClasses.CardExpansion}
+    ink_color_lookup = {e.value: e for e in cardClasses.InkColor}
+    card_type_lookup = {e.value: e for e in cardClasses.CardType}
+    rarity_lookup = {e.value: e for e in cardClasses.CardRarity}
+    classification_lookup = {e.value: e for e in cardClasses.CardClassification}
 
+    expansion = expansion_lookup[expansionText]
+    inkColor = ink_color_lookup[inkColorText]
+    cardType = card_type_lookup[cardTypeText]
+    rarity = rarity_lookup[rarityText]
+    classifications = [classification_lookup[classification] for classification in classificationsText]
+    inkCost = int(inkCostText)
 
 for td in cardLinkTDs:
     link = td.find_element(By.TAG_NAME, 'a')
